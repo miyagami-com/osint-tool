@@ -116,18 +116,19 @@ export default function Home() {
         }
     }
 
-    function json(url) {
-        return fetch(url).then(res => res.json());
-    }
-
-
-    function fetchLocaleData() {
-        const apiKey = 'f83f277c7931cac40d51207e7a3c428df0d38f5c4078bca8d38af6e6';
-        json(`https://api.ipdata.co?api-key=${apiKey}`).then(data => {
+    async function fetchLocaleData() {
+        const url = `/api`;
+        try {
+            let response = await fetch(url, {
+                method: 'GET',
+            });
+            let data = await response.json();
             setLocaleData(data)
             setLng(Number(data.longitude))
             setLat(Number(data.latitude))
-        });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     function setPosition(position) {
